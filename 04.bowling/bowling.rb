@@ -6,11 +6,7 @@ scores = score.chars
 
 shots = []
 scores.each do |s|
-  shots << if s == 'X'
-             10
-           else
-             s.to_i
-           end
+  s == 'X' ? shots << 10 : shots << s.to_i
 end
 
 total_score = 0
