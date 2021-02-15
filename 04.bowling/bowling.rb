@@ -1,10 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-score = ARGV[0]
-scores = score.chars
-
-shots = scores.map { |s| s == 'X' ? 10 : s.to_i }
+shots = ARGV[0].chars.map { |s| s == 'X' ? 10 : s.to_i }
 
 total_score = 0
 frame_score = 0
