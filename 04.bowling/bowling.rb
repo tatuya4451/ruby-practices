@@ -4,10 +4,7 @@
 score = ARGV[0]
 scores = score.chars
 
-shots = []
-scores.each do |s|
-  shots << (s == 'X' ? 10 : s.to_i)
-end
+shots = scores.map { |s| s == 'X' ? 10 : s.to_i }
 
 total_score = 0
 frame_score = 0
