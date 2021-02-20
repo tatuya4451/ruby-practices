@@ -64,6 +64,7 @@ def files_split(files)
   files_box
 end
 
+# ファイルの配列を整形
 def alignment(split_files, max_size)
   split_files.reduce(:zip)&.map(&:flatten)&.each { |row| puts row.map { |string| string&.ljust(max_size) }.join(' ') }
 end
