@@ -3,7 +3,7 @@
 
 require 'optparse'
 
-def wc_count(hash)
+def full_count(hash)
   hash.each do |file_name, file|
     file.each_value do |value|
       print value.to_s.rjust(8)
@@ -12,17 +12,17 @@ def wc_count(hash)
   end
 end
 
-def wc_normal(hash, files)
+def without_l_option(hash, files)
   if files.size == 1
-    wc_count(hash)
+    full_count(hash)
   else
-    wc_count(hash)
+    full_count(hash)
     print hash.values.inject(0) { |sum, hash| sum + hash[:lines] }.to_s.rjust(8)
     print hash.values.inject(0) { |sum, hash| sum + hash[:words] }.to_s.rjust(8)
     print hash.values.inject(0) { |sum, hash| sum + hash[:bytes] }.to_s.rjust(8)
     print " total \n"
-    end
   end
+end
 
 def line_count_only(hash)
   hash.each do |file_name, file|
@@ -36,14 +36,14 @@ def l_option(hash, files)
     line_count_only(hash)
   else
     line_count_only(hash)
-      print hash.values.inject(0) { |sum, hash| sum + hash[:lines] }.to_s.rjust(8)
-      print " total \n"
+    print hash.values.inject(0) { |sum, hash| sum + hash[:lines] }.to_s.rjust(8)
+    print " total \n"
   end
 end
 
 def wc(files)
-  argument_l = ARGV.getopts('l')
   hash = Hash.new { |h, k| h[k] = {} }
+  argument_l = ARGV.getopts('l')['l']
 
   files.each do |file|
     str = File.read(file)
@@ -52,20 +52,12 @@ def wc(files)
     hash[file][:bytes] = str.size
   end
 
-  if argument_l
-    l_option(hash, files)
-  else
-    wc_normal(hash, files)
-  end
+  argument_l ? l_option(hash, files) : without_l_option(hash, files)
 end
 
 def output_with_out_stdin
   files = ARGV
-  if files.empty?
-    # noop
-  else
-    wc(files)
-  end
+  files.empty? ? '' : wc(files)
 end
 
 def output_with_stdin
@@ -78,8 +70,4 @@ def output_with_stdin
   print "\n"
 end
 
-if $stdin.tty?
-  output_with_out_stdin
-else
-  output_with_stdin
-end
+$stdin.tty? ? output_with_out_stdin : output_with_stdin
