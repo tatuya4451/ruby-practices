@@ -21,11 +21,7 @@ def total_count(hash)
 end
 
 def without_l_option(hash, files)
-  if files.size == 1
-    wc_count(hash)
-  else
-    total_count(hash)
-  end
+  files.size == 1 ? wc_count(hash) : total_count(hash)
 end
 
 def line_count_only(hash)
@@ -42,11 +38,7 @@ def total_line_count_only(hash)
 end
 
 def l_option(hash, files)
-  if files.size == 1
-    line_count_only(hash)
-  else
-    total_line_count_only(hash)
-  end
+  files.size == 1 ? line_count_only(hash) : total_line_count_only(hash)
 end
 
 def wc(files)
