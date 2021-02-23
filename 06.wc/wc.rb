@@ -3,7 +3,7 @@
 
 require 'optparse'
 
-def full_count(hash)
+def wc_count(hash)
   hash.each do |file_name, file|
     file.each_value do |value|
       print value.to_s.rjust(8)
@@ -12,15 +12,19 @@ def full_count(hash)
   end
 end
 
+def total_count(hash)
+  wc_count(hash)
+  print hash.values.inject(0) { |sum, value| sum + value[:lines] }.to_s.rjust(8)
+  print hash.values.inject(0) { |sum, value| sum + value[:words] }.to_s.rjust(8)
+  print hash.values.inject(0) { |sum, value| sum + value[:bytes] }.to_s.rjust(8)
+  print " total \n"
+end
+
 def without_l_option(hash, files)
   if files.size == 1
-    full_count(hash)
+    wc_count(hash)
   else
-    full_count(hash)
-    print hash.values.inject(0) { |sum, hash| sum + hash[:lines] }.to_s.rjust(8)
-    print hash.values.inject(0) { |sum, hash| sum + hash[:words] }.to_s.rjust(8)
-    print hash.values.inject(0) { |sum, hash| sum + hash[:bytes] }.to_s.rjust(8)
-    print " total \n"
+    total_count(hash)
   end
 end
 
@@ -31,13 +35,17 @@ def line_count_only(hash)
   end
 end
 
+def total_line_count_only(hash)
+  line_count_only(hash)
+  print hash.values.inject(0) { |sum, value| sum + value[:lines] }.to_s.rjust(8)
+  print " total \n"
+end
+
 def l_option(hash, files)
   if files.size == 1
     line_count_only(hash)
   else
-    line_count_only(hash)
-    print hash.values.inject(0) { |sum, hash| sum + hash[:lines] }.to_s.rjust(8)
-    print " total \n"
+    total_line_count_only(hash)
   end
 end
 
