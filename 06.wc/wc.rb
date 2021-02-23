@@ -50,3 +50,11 @@ def file
 end
 
 file
+
+pipe = []
+input = $stdin.read
+pipe << input.count("\n")
+pipe << input.split(/\s+/).size
+pipe << input.size
+pipe.each { |file| print file.to_s.rjust(8) }
+print "\n"
