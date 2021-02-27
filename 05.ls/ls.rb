@@ -70,14 +70,17 @@ def alignment(split_files, max_size)
 end
 
 # -a, -rオプション
-def ar_option(files)
-  max_size = files.max_by(&:size).size.to_i
-
-  if files.size == 1
-    puts files
+def without_l_option(files)
+  if files.empty?
+    exit
   else
-    split_files = files_split(files)
-    alignment(split_files, max_size)
+    max_size = files.max_by(&:size).size.to_i
+    if files.size == 1
+      puts files
+    else
+      split_files = files_split(files)
+      alignment(split_files, max_size)
+    end
   end
 end
 
@@ -89,10 +92,4 @@ argument_l = params['l']
 files = (argument_a ? Dir['*', '.*'] : Dir['*']).sort
 files.reverse! if argument_r
 
-if files.empty?
-  # noop
-elsif argument_l
-  l_option(files)
-else
-  ar_option(files)
-end
+argument_l ? l_option(files) : without_l_option(files)
