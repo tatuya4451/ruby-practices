@@ -47,7 +47,7 @@ def wc(files)
 
   files.each do |file|
     str = File.read(file)
-    hash[file][:lines] = str.each_line.count
+    hash[file][:lines] = str.count("\n")
     hash[file][:words] = str.split(/\s+/).size
     hash[file][:bytes] = str.size
   end
