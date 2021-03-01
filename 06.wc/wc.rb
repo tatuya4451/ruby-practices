@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
+require 'find'
 
 def wc_count(hash)
   hash.each do |file_name, file|
@@ -16,6 +17,8 @@ def total_count(hash)
   wc_count(hash)
   print hash.values.inject(0) { |sum, value| sum + value[:lines] }.to_s.rjust(8)
   print hash.values.inject(0) { |sum, value| sum + value[:words] }.to_s.rjust(8)
+
+
   print hash.values.inject(0) { |sum, value| sum + value[:bytes] }.to_s.rjust(8)
   print " total \n"
 end
@@ -55,10 +58,6 @@ def wc(files)
   argument_l ? l_option(hash, files) : without_l_option(hash, files)
 end
 
-def output_with_out_stdin
-  files = ARGV
-  files.empty? ? '' : wc(files)
-end
 
 def output_with_stdin
   pipe = []
@@ -70,4 +69,10 @@ def output_with_stdin
   print "\n"
 end
 
-$stdin.tty? ? output_with_out_stdin : output_with_stdin
+def directly_under_file_include
+  files = []
+  Find.find('./').map { |f| files << f.slice(2..-1) if ARGV.include?(f.slice(2..-1))}
+  files.empty? ? output_with_stdin : wc(files)
+end
+
+directly_under_file_include
