@@ -17,8 +17,6 @@ def total_count(hash)
   wc_count(hash)
   print hash.values.inject(0) { |sum, value| sum + value[:lines] }.to_s.rjust(8)
   print hash.values.inject(0) { |sum, value| sum + value[:words] }.to_s.rjust(8)
-
-
   print hash.values.inject(0) { |sum, value| sum + value[:bytes] }.to_s.rjust(8)
   print " total \n"
 end
@@ -57,7 +55,6 @@ def wc(files)
 
   argument_l ? l_option(hash, files) : without_l_option(hash, files)
 end
-
 
 def output_with_stdin
   pipe = []
