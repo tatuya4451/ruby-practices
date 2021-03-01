@@ -68,7 +68,7 @@ end
 
 def directory_under_file_include
   files = []
-  Find.find('./').map { |f| files << f.slice(2..-1) if ARGV.include?(f.slice(2..-1))}
+  Find.find('./').map { |f| files << f.slice(2..-1) if ARGV.include?(f.slice(2..-1)) }
   files.empty? ? output_with_stdin : wc(files)
 end
 
