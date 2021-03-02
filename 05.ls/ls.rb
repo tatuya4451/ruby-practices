@@ -71,16 +71,14 @@ end
 
 # -a, -rオプション
 def without_l_option(files)
-  if files.empty?
-    exit
+  return if files.empty?
+
+  max_size = files.max_by(&:size).size.to_i
+  if files.size == 1
+    puts files
   else
-    max_size = files.max_by(&:size).size.to_i
-    if files.size == 1
-      puts files
-    else
-      split_files = files_split(files)
-      alignment(split_files, max_size)
-    end
+    split_files = files_split(files)
+    alignment(split_files, max_size)
   end
 end
 
